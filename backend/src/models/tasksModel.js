@@ -13,7 +13,7 @@ const createTask = async (task) => {
 
     const [createdTask] = await connection.execute('INSERT INTO tasks(title, status, created_at) VALUES (?, ?, ?)', [title, 'pendente', dateUtc]) 
 
-    return createdTask
+    return {inserId: createdTask}
 
 }
 
