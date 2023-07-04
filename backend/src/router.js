@@ -6,6 +6,7 @@ const tasksControllers = require('./controllers/tasksControllers')
 const tasksMiddleware = require('./middlewares/tasksMiddleware')
 
 router.get('/tasks', tasksControllers.getAll)
+router.get('/tasks/:id', tasksControllers.getOneTask)
 router.post('/tasks', tasksMiddleware.validateFieldTitle, tasksControllers.createTask)
 router.delete('/tasks/:id', tasksControllers.deleteTask)
 router.put('/tasks/:id', 

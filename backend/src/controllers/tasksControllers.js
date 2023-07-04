@@ -6,6 +6,14 @@ const getAll = async (_req, res) => {
     return res.status(200).json(tasks)
 }
 
+const getOneTask = async (req, res) => {
+
+    const { id } = req.params
+
+    const oneTask = await tasksModel.getOneTask(id)
+    return res.status(200).json(oneTask)
+}
+
 const createTask = async (req, res) => {
     const createdTask = await tasksModel.createTask(req.body)
     return res.status(201).json(createdTask)
@@ -31,4 +39,5 @@ module.exports = {
     createTask,
     deleteTask,
     updateTask,
+    getOneTask
 }

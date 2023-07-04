@@ -5,6 +5,14 @@ const getAll = async () => {
     return tasks
 }
 
+const getOneTask = async (id) => {
+    
+    const query = 'SELECT * FROM tasks WHERE id = ?'
+    
+    const [oneTask] = await connection.execute(query, [id])
+    return oneTask
+}
+
 const createTask = async (task) => {
 
     const { title } = task
@@ -35,6 +43,7 @@ module.exports = {
     getAll,
     createTask,
     deleteTask,
-    updateTask
+    updateTask,
+    getOneTask
 
 }
