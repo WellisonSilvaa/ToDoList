@@ -1,27 +1,26 @@
 const connection = require('./connection')
+const bcrypt = require('bcrypt')
 
 const getAll = async () => {
     const [ users ] = await connection.execute('SELECT * FROM users')
     return users
 }
 
-const getOneTask = async (id) => {
+const getOneUser = async (id) => {
     
-    const query = 'SELECT * FROM tasks WHERE id = ?'
+    const query = 'SELECT * FROM users WHERE id = ?'
     
-    const [oneTask] = await connection.execute(query, [id])
-    return oneTask
+    const [oneUser] = await connection.execute(query, [id])
+    return oneUser
 }
 
-const createTask = async (task) => {
+const createUser = async (user) => {
+    console.log(user)
+    
+    const query = 'INSERT INTO users(name, email, password) VALUES (?, ?, ?)'
+    const [createdUser] = await connection.execute(query, [user.name, user.email, user.password]) 
 
-    const { title } = task
-
-    const dateUtc = new Date(Date.now()).toUTCString()
-
-    const [createdTask] = await connection.execute('INSERT INTO tasks(title, status, created_at) VALUES (?, ?, ?)', [title, 'pendente', dateUtc]) 
-
-    return {inserId: createdTask}
+    return {inserId: createdUser}
 
 }
 
@@ -41,9 +40,9 @@ const updateTask = async (id, task) => {
 
 module.exports = {
     getAll,
-    createTask,
+    createUser,
     deleteTask,
     updateTask,
-    getOneTask
+    getOneUser
 
 }

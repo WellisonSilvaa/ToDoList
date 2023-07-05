@@ -18,5 +18,7 @@ router.put('/tasks/:id',
 
 
 router.get('/users', userControllers.getAll)
+router.get('/users/:id', userControllers.getOneUser)
+router.post('/users', userControllers.createUser)
 
 module.exports = router

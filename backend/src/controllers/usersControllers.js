@@ -1,4 +1,5 @@
 const usersModel = require('../models/usersModel')
+const bcrypt = require('bcrypt')
 
 const getAll = async (_req, res) => {
 
@@ -6,18 +7,20 @@ const getAll = async (_req, res) => {
     return res.status(200).json(users)
 }
 
-// const getOneTask = async (req, res) => {
+const getOneUser = async (req, res) => {
 
-//     const { id } = req.params
+    const { id } = req.params
 
-//     const oneTask = await tasksModel.getOneTask(id)
-//     return res.status(200).json(oneTask)
-// }
+    const oneUser = await usersModel.getOneUser(id)
+    return res.status(200).json(oneUser)
+}
 
-// const createTask = async (req, res) => {
-//     const createdTask = await tasksModel.createTask(req.body)
-//     return res.status(201).json(createdTask)
-// }
+const createUser = async (req, res) => {
+    var dados = req.body
+    dados.password = await bcrypt.hash(dados.password, 8)
+    const createdUser = await usersModel.createUser(req.body)
+    return res.status(201).json(createdUser)
+}
 
 // const deleteTask = async (req, res) => {
 //     const { id } = req.params
@@ -36,8 +39,8 @@ const getAll = async (_req, res) => {
 
 module.exports = {
     getAll,
-    // createTask,
+    createUser,
     // deleteTask,
     // updateTask,
-    // getOneTask
+    getOneUser
 }
