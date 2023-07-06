@@ -18,8 +18,22 @@ const getOneUser = async (req, res) => {
 const createUser = async (req, res) => {
     var dados = req.body
     dados.password = await bcrypt.hash(dados.password, 8)
-    const createdUser = await usersModel.createUser(req.body)
-    return res.status(201).json(createdUser)
+    
+    await Usuario.create(req.body).
+    then(() => {
+        return res.json({
+            erro: false,
+            mensagem: "Usuário cadastrado com sucesso!"
+        });
+    }).catch(() => {
+        return res.status(400).json({
+            erro: true,
+            mensagem: "Erro: Usuário não cadastrado com sucesso!"
+        });
+    })
+    
+    // const createdUser = await usersModel.createUser(req.body)
+    // return res.status(201).json(createdUser)
 }
 
 // const deleteTask = async (req, res) => {
