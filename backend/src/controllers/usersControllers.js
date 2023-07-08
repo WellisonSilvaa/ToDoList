@@ -3,23 +3,43 @@ const bcrypt = require('bcrypt')
 
 const getAll = async (_req, res) => {
 
-    const users = await usersModel.getAll() 
-    return res.status(200).json(users)
+    await usersModel.Usuario.findAll({
+        attributes: ['id', 'name', 'email', 'password', 'telefone']
+    }).then((users) => {
+        return res.json({
+            erro: false,
+            users
+        });
+    }).catch(() => {
+        return res.status(400).json({
+            erro: true,
+            mensagem: "Erro: Nenhum usuário encontrado!"
+        })
+    })
 }
 
 const getOneUser = async (req, res) => {
 
     const { id } = req.params
 
-    const oneUser = await usersModel.getOneUser(id)
-    return res.status(200).json(oneUser)
+    await usersModel.Usuario.findByPk(id).then((user) => {
+            return res.json({
+                erro: false,
+                user: user
+            });
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Nenhum usuário encontrado!"
+            });
+        });
 }
 
 const createUser = async (req, res) => {
     var dados = req.body
     dados.password = await bcrypt.hash(dados.password, 8)
     
-    await Usuario.create(req.body).
+    await usersModel.Usuario.create(req.body).
     then(() => {
         return res.json({
             erro: false,
@@ -31,30 +51,46 @@ const createUser = async (req, res) => {
             mensagem: "Erro: Usuário não cadastrado com sucesso!"
         });
     })
-    
-    // const createdUser = await usersModel.createUser(req.body)
-    // return res.status(201).json(createdUser)
 }
 
-// const deleteTask = async (req, res) => {
-//     const { id } = req.params
+const updateUser = async (req, res) => {
+    const { id } = req.body
+    await usersModel.Usuario.update(req.body, { where: { id }})
+        .then(() => {
+            return res.json({
+                erro: false,
+                mensagem: "Usuário editado com sucesso!"
+            })
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Usuário não editado!"
+            })
+        })
+}
 
-//     await tasksModel.deleteTask(id)
-//     return res.status(204).json()
-// }
+const deleteUser = async (req, res) => {
+    const { id } = req.params
 
-// const updateTask = async (req, res) => {
-//     const { id } = req.params
+    await usersModel.Usuario.destroy({ where: {id}})
+        .then(() => {
+            return res.json({
+                erro: false,
+                mensagem: "Usuário apagado com sucesso!"
+            })
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro: Usuário não apagado."
+            })
+        })
 
-//     await tasksModel.updateTask(id, req.body)
-//     return res.status(204).json()
-
-// }
+}
 
 module.exports = {
     getAll,
     createUser,
-    // deleteTask,
-    // updateTask,
+    deleteUser,
+    updateUser,
     getOneUser
 }
