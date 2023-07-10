@@ -53,25 +53,44 @@ const createTask = async (req, res) => {
         })
 }
 
-// const deleteTask = async (req, res) => {
-//     const { id } = req.params
+const deleteTask = async (req, res) => {
+    const { id } = req.params;
 
-//     await tasksModel.deleteTask(id)
-//     return res.status(204).json()
-// }
+    await Task.destroy({ where: { id }})
+        .then(() => {
+            return res.status(201).json({
+                erro: false,
+                mensagem: "Tarefa excluída com sucesso!"
+            })
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro ao excluir tarefa!"
+            })
+        })
+}
 
-// const updateTask = async (req, res) => {
-//     const { id } = req.params
+const updateTask = async (req, res) => {
+    const {id} = req.params;
 
-//     await tasksModel.updateTask(id, req.body)
-//     return res.status(204).json()
-
-// }
+    await Task.update(req.body, { where: { id }})
+        .then((task) => {
+            return res.status(200).json({
+                erro: false,
+                mensagem: "Tarefa atualizada com sucesso!",
+            })
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro ao atualizar tarefa!"
+            })
+        })
+}
 
 module.exports = {
     getAll,
     getOneTask,
     createTask,
-    // deleteTask,
-    // updateTask,
+    deleteTask,
+    updateTask,
 }
