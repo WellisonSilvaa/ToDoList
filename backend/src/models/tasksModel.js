@@ -13,18 +13,18 @@ desc: {
     allowNull: false
 },
 estimate_At: {
-    type: Sequelize.DATE,
+    type: Sequelize.STRING,
     allowNull: false
 },
 done_At: {
-    type: Sequelize.DATE,
+    type: Sequelize.STRING,
     allowNull: false
 }
 });
 
 Task.sync();
 
- module.exports = Task
+module.exports = Task
 
 // const getAll = async () => {
 //     const [ tasks ] = await connection.execute('SELECT * FROM tasks')

@@ -54,7 +54,10 @@ const createUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    const { id } = req.body
+    const { id } = req.params
+    var dados = req.body
+    dados.password = await bcrypt.hash(dados.password, 8)
+
     await usersModel.Usuario.update(req.body, { where: { id }})
         .then(() => {
             return res.json({

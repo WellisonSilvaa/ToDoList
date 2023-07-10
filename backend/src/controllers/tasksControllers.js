@@ -17,18 +17,41 @@ const getAll = async (_req, res) => {
     })
 }
 
-// const getOneTask = async (req, res) => {
+const getOneTask = async (req, res) => {
 
-//     const { id } = req.params
+    const { id } = req.params
 
-//     const oneTask = await tasksModel.getOneTask(id)
-//     return res.status(200).json(oneTask)
-// }
+    await Task.findByPk(id).then((task) => {
+        return res.json({
+            erro: false,
+            task
+        });
+    }).catch(() => {
+        return res.status(400).json({
+            erro: true,
+            mensagem: "Erro: Nenhuma tarefa encontrado"
+        })
+    })
+}
 
-// const createTask = async (req, res) => {
-//     const createdTask = await tasksModel.createTask(req.body)
-//     return res.status(201).json(createdTask)
-// }
+const createTask = async (req, res) => {
+        var dados = req.body
+        const data = dateUtc = new Date(Date.now()).toUTCString()
+        dados.createdAt = data
+
+        await Task.create(req.body)
+        .then(() => {
+            return res.json({
+                erro: false,
+                mensagem: "Tarefa criada com sucesso"
+            })
+        }).catch(() => {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Erro ao criar a tarefa"
+            })
+        })
+}
 
 // const deleteTask = async (req, res) => {
 //     const { id } = req.params
@@ -47,8 +70,8 @@ const getAll = async (_req, res) => {
 
 module.exports = {
     getAll,
-    // createTask,
+    getOneTask,
+    createTask,
     // deleteTask,
     // updateTask,
-    // getOneTask
 }

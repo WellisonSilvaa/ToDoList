@@ -65,7 +65,7 @@ Usuario.sync();
 //     return updateTask
 // }
 
-module.exports = Usuario
+module.exports = { Usuario }
     // getAll,
     // createUser,
     // deleteTask,
