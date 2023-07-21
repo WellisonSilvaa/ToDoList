@@ -1,38 +1,42 @@
 const usersModel = require('../models/usersModel')
 const bcrypt = require('bcrypt')
 
-const getAll = async (_req, res) => {
+// const getAll = async (_req, res) => {
 
-    await usersModel.Usuario.findAll({
-        attributes: ['id', 'name', 'email', 'password', 'telefone']
-    }).then((users) => {
-        return res.json({
-            erro: false,
-            users
-        });
-    }).catch(() => {
-        return res.status(400).json({
-            erro: true,
-            mensagem: "Erro: Nenhum usuário encontrado!"
-        })
-    })
-}
+//     await usersModel.Usuario.findAll({
+//         attributes: ['id', 'name', 'email', 'password', 'telefone']
+//     }).then((users) => {
+//         return res.json({
+//             erro: false,
+//             users
+//         });
+//     }).catch(() => {
+//         return res.status(400).json({
+//             erro: true,
+//             mensagem: "Erro: Nenhum usuário encontrado!"
+//         })
+//     })
+// }
 
-const getOneUser = async (req, res) => {
+// const getOneUser = async (req, res) => {
 
-    const { id } = req.params
+//     const { id } = req.params
 
-    await usersModel.Usuario.findByPk(id).then((user) => {
-            return res.json({
-                erro: false,
-                user: user
-            });
-        }).catch(() => {
-            return res.status(400).json({
-                erro: true,
-                mensagem: "Erro: Nenhum usuário encontrado!"
-            });
-        });
+//     await usersModel.Usuario.findByPk(id).then((user) => {
+//             return res.json({
+//                 erro: false,
+//                 user: user
+//             });
+//         }).catch(() => {
+//             return res.status(400).json({
+//                 erro: true,
+//                 mensagem: "Erro: Nenhum usuário encontrado!"
+//             });
+//         });
+// }
+
+const signin = async (req, res) => {
+    
 }
 
 const createUser = async (req, res) => {
