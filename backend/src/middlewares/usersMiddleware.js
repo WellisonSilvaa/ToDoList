@@ -13,6 +13,11 @@ const validateFieldName = (req, res, next) => {
 }
 
 const validateFieldEmail = (req, res, next) => {
+   
+    
+   
+    
+    
     const { body } = req;
 
     if(body.email == undefined) {
@@ -23,12 +28,10 @@ const validateFieldEmail = (req, res, next) => {
         return res.status(400).json({ message: 'O email não pode ser vazio' })
     }
 
-    if(body.email !== '@') {
-        return res.status(400).json({ message: 'Email inválido' })
-    }
 
     next()
 }
+
 
 
 module.exports = {
