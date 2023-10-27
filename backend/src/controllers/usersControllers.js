@@ -1,8 +1,8 @@
-const { validationResult } = require('express-validator');
+// const { validationResult } = require('express-validator');
 const usersModel = require('../models/usersModel')
 const bcrypt = require('bcrypt')
-const jwt = require('jwt-simple')
-const { authSecret } = require('../../.envv')
+// const jwt = require('jwt-simple')
+// const { authSecret } = require('../../.envv')
 
 const getAll = async (_req, res) => {
 
@@ -39,10 +39,7 @@ const getOneUser = async (req, res) => {
 }
 
 const createUser = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.errors[0] });
-    }
+    
     var dados = req.body
     dados.password = await bcrypt.hash(dados.password, 8)
     
@@ -99,44 +96,10 @@ const deleteUser = async (req, res) => {
 
 }
 
-// --------------- Login User --------------- //
-
-const signin = async (req, res) => {
-    if(!req.body.email || !req.body.password)  {
-        return res.status(400).send('Dados incompletos')
-    }
-
-    const user = await usersModel.Usuario.findOne({
-        where: {
-            email: req.body.email
-        },
-        
-    })
-
-    if(user){ 
-        bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
-
-            if(err || !isMatch) {
-                return res.status(401).send('Senha incorreta')
-            }
-            
-            const payload = { id: user.id }
-            res.json({
-                name: user.name,
-                email: user.email,
-                token: jwt.encode(payload, authSecret)
-            })
-        })  
-    } else {
-        res.status(400).send('Usuário não encontrado')
-    }
-}
-
 module.exports = {
     getAll,
     createUser,
     deleteUser,
     updateUser,
-    getOneUser,
-    signin
+    getOneUser
 }

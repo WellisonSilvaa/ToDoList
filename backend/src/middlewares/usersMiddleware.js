@@ -14,10 +14,6 @@ const validateFieldName = (req, res, next) => {
 
 const validateFieldEmail = (req, res, next) => {
    
-    
-   
-    
-    
     const { body } = req;
 
     if(body.email == undefined) {
